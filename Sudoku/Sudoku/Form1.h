@@ -40,11 +40,12 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::NumericUpDown^ ThreadsNumber;
 
 
-	private: System::Windows::Forms::Label^ threadsLabel;
+
 	private: System::Windows::Forms::TextBox^ TimeTextBox;
 
 	private: System::Windows::Forms::TextBox^ SudokuDirecoryText;
-	private: System::Windows::Forms::TextBox^ textBox1;
+	private: System::Windows::Forms::TextBox^ ResoultDirecoryText;
+
 	private: System::Windows::Forms::Button^ SudokuDirectoryButton;
 	private: System::Windows::Forms::Button^ ResultDirectoryButton;
 
@@ -73,10 +74,9 @@ namespace CppCLRWinformsProjekt {
 			this->CppCheckButton = (gcnew System::Windows::Forms::RadioButton());
 			this->SetThreadsButton = (gcnew System::Windows::Forms::Button());
 			this->ThreadsNumber = (gcnew System::Windows::Forms::NumericUpDown());
-			this->threadsLabel = (gcnew System::Windows::Forms::Label());
 			this->TimeTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->SudokuDirecoryText = (gcnew System::Windows::Forms::TextBox());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->ResoultDirecoryText = (gcnew System::Windows::Forms::TextBox());
 			this->SudokuDirectoryButton = (gcnew System::Windows::Forms::Button());
 			this->ResultDirectoryButton = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ThreadsNumber))->BeginInit();
@@ -93,6 +93,7 @@ namespace CppCLRWinformsProjekt {
 			this->AssemblerChcekButton->TabStop = true;
 			this->AssemblerChcekButton->Text = L"Assembler";
 			this->AssemblerChcekButton->UseVisualStyleBackColor = true;
+			this->AssemblerChcekButton->CheckedChanged += gcnew System::EventHandler(this, &Form1::AssemblerChcekButton_CheckedChanged);
 			// 
 			// CppCheckButton
 			// 
@@ -105,43 +106,38 @@ namespace CppCLRWinformsProjekt {
 			this->CppCheckButton->TabStop = true;
 			this->CppCheckButton->Text = L"C++";
 			this->CppCheckButton->UseVisualStyleBackColor = true;
+			this->CppCheckButton->CheckedChanged += gcnew System::EventHandler(this, &Form1::CppCheckButton_CheckedChanged);
 			// 
 			// SetThreadsButton
 			// 
-			this->SetThreadsButton->Location = System::Drawing::Point(315, 12);
+			this->SetThreadsButton->Location = System::Drawing::Point(292, 12);
 			this->SetThreadsButton->Name = L"SetThreadsButton";
 			this->SetThreadsButton->Size = System::Drawing::Size(75, 20);
 			this->SetThreadsButton->TabIndex = 32;
 			this->SetThreadsButton->Text = L"Set threads";
 			this->SetThreadsButton->UseVisualStyleBackColor = true;
+			this->SetThreadsButton->Click += gcnew System::EventHandler(this, &Form1::SetThreadsButton_Click);
 			// 
 			// ThreadsNumber
 			// 
-			this->ThreadsNumber->Location = System::Drawing::Point(263, 12);
-			this->ThreadsNumber->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 64, 0, 0, 0 });
+			this->ThreadsNumber->Location = System::Drawing::Point(229, 12);
+			this->ThreadsNumber->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10000, 0, 0, 0 });
 			this->ThreadsNumber->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->ThreadsNumber->Name = L"ThreadsNumber";
-			this->ThreadsNumber->Size = System::Drawing::Size(46, 20);
+			this->ThreadsNumber->Size = System::Drawing::Size(57, 20);
 			this->ThreadsNumber->TabIndex = 31;
 			this->ThreadsNumber->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
-			// 
-			// threadsLabel
-			// 
-			this->threadsLabel->AutoSize = true;
-			this->threadsLabel->Location = System::Drawing::Point(208, 16);
-			this->threadsLabel->Name = L"threadsLabel";
-			this->threadsLabel->Size = System::Drawing::Size(49, 13);
-			this->threadsLabel->TabIndex = 30;
-			this->threadsLabel->Text = L"Threads:";
+			this->ThreadsNumber->ValueChanged += gcnew System::EventHandler(this, &Form1::ThreadsNumber_ValueChanged);
 			// 
 			// TimeTextBox
 			// 
-			this->TimeTextBox->Location = System::Drawing::Point(202, 176);
+			this->TimeTextBox->Location = System::Drawing::Point(208, 172);
 			this->TimeTextBox->Multiline = true;
 			this->TimeTextBox->Name = L"TimeTextBox";
 			this->TimeTextBox->ScrollBars = System::Windows::Forms::ScrollBars::Both;
 			this->TimeTextBox->Size = System::Drawing::Size(179, 46);
 			this->TimeTextBox->TabIndex = 33;
+			this->TimeTextBox->TextChanged += gcnew System::EventHandler(this, &Form1::TimeTextBox_TextChanged);
 			// 
 			// SudokuDirecoryText
 			// 
@@ -151,15 +147,17 @@ namespace CppCLRWinformsProjekt {
 			this->SudokuDirecoryText->ScrollBars = System::Windows::Forms::ScrollBars::Both;
 			this->SudokuDirecoryText->Size = System::Drawing::Size(195, 70);
 			this->SudokuDirecoryText->TabIndex = 34;
+			this->SudokuDirecoryText->TextChanged += gcnew System::EventHandler(this, &Form1::SudokuDirecoryText_TextChanged);
 			// 
-			// textBox1
+			// ResoultDirecoryText
 			// 
-			this->textBox1->Location = System::Drawing::Point(387, 38);
-			this->textBox1->Multiline = true;
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->ScrollBars = System::Windows::Forms::ScrollBars::Both;
-			this->textBox1->Size = System::Drawing::Size(206, 70);
-			this->textBox1->TabIndex = 35;
+			this->ResoultDirecoryText->Location = System::Drawing::Point(387, 38);
+			this->ResoultDirecoryText->Multiline = true;
+			this->ResoultDirecoryText->Name = L"ResoultDirecoryText";
+			this->ResoultDirecoryText->ScrollBars = System::Windows::Forms::ScrollBars::Both;
+			this->ResoultDirecoryText->Size = System::Drawing::Size(206, 70);
+			this->ResoultDirecoryText->TabIndex = 35;
+			this->ResoultDirecoryText->TextChanged += gcnew System::EventHandler(this, &Form1::ResoultDirecoryText_TextChanged);
 			// 
 			// SudokuDirectoryButton
 			// 
@@ -169,6 +167,7 @@ namespace CppCLRWinformsProjekt {
 			this->SudokuDirectoryButton->TabIndex = 36;
 			this->SudokuDirectoryButton->Text = L"Open sudoku directory";
 			this->SudokuDirectoryButton->UseVisualStyleBackColor = true;
+			this->SudokuDirectoryButton->Click += gcnew System::EventHandler(this, &Form1::SudokuDirectoryButton_Click);
 			// 
 			// ResultDirectoryButton
 			// 
@@ -178,6 +177,7 @@ namespace CppCLRWinformsProjekt {
 			this->ResultDirectoryButton->TabIndex = 37;
 			this->ResultDirectoryButton->Text = L"Open resoult directory";
 			this->ResultDirectoryButton->UseVisualStyleBackColor = true;
+			this->ResultDirectoryButton->Click += gcnew System::EventHandler(this, &Form1::ResultDirectoryButton_Click);
 			// 
 			// Form1
 			// 
@@ -186,12 +186,11 @@ namespace CppCLRWinformsProjekt {
 			this->ClientSize = System::Drawing::Size(607, 357);
 			this->Controls->Add(this->ResultDirectoryButton);
 			this->Controls->Add(this->SudokuDirectoryButton);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->ResoultDirecoryText);
 			this->Controls->Add(this->SudokuDirecoryText);
 			this->Controls->Add(this->TimeTextBox);
 			this->Controls->Add(this->SetThreadsButton);
 			this->Controls->Add(this->ThreadsNumber);
-			this->Controls->Add(this->threadsLabel);
 			this->Controls->Add(this->CppCheckButton);
 			this->Controls->Add(this->AssemblerChcekButton);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
@@ -204,5 +203,41 @@ namespace CppCLRWinformsProjekt {
 
 		}
 #pragma endregion
+		private: System::Void SudokuDirecoryText_TextChanged(System::Object^ sender, System::EventArgs^ e) 
+		{
+
+		}
+		private: System::Void SudokuDirectoryButton_Click(System::Object^ sender, System::EventArgs^ e) 
+		{
+
+		}
+		private: System::Void ResoultDirecoryText_TextChanged(System::Object^ sender, System::EventArgs^ e) 
+		{
+
+		}
+		private: System::Void ResultDirectoryButton_Click(System::Object^ sender, System::EventArgs^ e) 
+		{
+
+		}
+		private: System::Void AssemblerChcekButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
+		{
+
+		}
+		private: System::Void CppCheckButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
+		{
+
+		}
+		private: System::Void TimeTextBox_TextChanged(System::Object^ sender, System::EventArgs^ e) 
+		{
+
+		}
+		private: System::Void ThreadsNumber_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
+		{
+
+		}
+		private: System::Void SetThreadsButton_Click(System::Object^ sender, System::EventArgs^ e) 
+		{
+
+		}
 	};
 }
