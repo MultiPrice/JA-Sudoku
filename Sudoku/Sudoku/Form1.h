@@ -8,6 +8,7 @@ namespace CppCLRWinformsProjekt {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::IO;
 
 	/// <summary>
 	/// Zusammenfassung für Form1
@@ -44,11 +45,16 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::TextBox^ TimeTextBox;
 
 	private: System::Windows::Forms::TextBox^ SudokuDirecoryText;
-	private: System::Windows::Forms::TextBox^ ResoultDirecoryText;
+	private: System::Windows::Forms::TextBox^ ResoultFileText;
+
 
 	private: System::Windows::Forms::Button^ SudokuDirectoryButton;
-	private: System::Windows::Forms::Button^ ResultDirectoryButton;
+	private: System::Windows::Forms::Button^ ResultFileButton;
 
+	String^ strfilename;
+	bool CppOrAsm;
+	String^ directoryname;
+	private: System::Windows::Forms::Button^ Start;
 
 	protected:
 
@@ -76,9 +82,10 @@ namespace CppCLRWinformsProjekt {
 			this->ThreadsNumber = (gcnew System::Windows::Forms::NumericUpDown());
 			this->TimeTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->SudokuDirecoryText = (gcnew System::Windows::Forms::TextBox());
-			this->ResoultDirecoryText = (gcnew System::Windows::Forms::TextBox());
+			this->ResoultFileText = (gcnew System::Windows::Forms::TextBox());
 			this->SudokuDirectoryButton = (gcnew System::Windows::Forms::Button());
-			this->ResultDirectoryButton = (gcnew System::Windows::Forms::Button());
+			this->ResultFileButton = (gcnew System::Windows::Forms::Button());
+			this->Start = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ThreadsNumber))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -149,15 +156,15 @@ namespace CppCLRWinformsProjekt {
 			this->SudokuDirecoryText->TabIndex = 34;
 			this->SudokuDirecoryText->TextChanged += gcnew System::EventHandler(this, &Form1::SudokuDirecoryText_TextChanged);
 			// 
-			// ResoultDirecoryText
+			// ResoultFileText
 			// 
-			this->ResoultDirecoryText->Location = System::Drawing::Point(387, 38);
-			this->ResoultDirecoryText->Multiline = true;
-			this->ResoultDirecoryText->Name = L"ResoultDirecoryText";
-			this->ResoultDirecoryText->ScrollBars = System::Windows::Forms::ScrollBars::Both;
-			this->ResoultDirecoryText->Size = System::Drawing::Size(206, 70);
-			this->ResoultDirecoryText->TabIndex = 35;
-			this->ResoultDirecoryText->TextChanged += gcnew System::EventHandler(this, &Form1::ResoultDirecoryText_TextChanged);
+			this->ResoultFileText->Location = System::Drawing::Point(387, 38);
+			this->ResoultFileText->Multiline = true;
+			this->ResoultFileText->Name = L"ResoultFileText";
+			this->ResoultFileText->ScrollBars = System::Windows::Forms::ScrollBars::Both;
+			this->ResoultFileText->Size = System::Drawing::Size(206, 70);
+			this->ResoultFileText->TabIndex = 35;
+			this->ResoultFileText->TextChanged += gcnew System::EventHandler(this, &Form1::ResoultFileText_TextChanged);
 			// 
 			// SudokuDirectoryButton
 			// 
@@ -169,24 +176,35 @@ namespace CppCLRWinformsProjekt {
 			this->SudokuDirectoryButton->UseVisualStyleBackColor = true;
 			this->SudokuDirectoryButton->Click += gcnew System::EventHandler(this, &Form1::SudokuDirectoryButton_Click);
 			// 
-			// ResultDirectoryButton
+			// ResultFileButton
 			// 
-			this->ResultDirectoryButton->Location = System::Drawing::Point(434, 114);
-			this->ResultDirectoryButton->Name = L"ResultDirectoryButton";
-			this->ResultDirectoryButton->Size = System::Drawing::Size(119, 23);
-			this->ResultDirectoryButton->TabIndex = 37;
-			this->ResultDirectoryButton->Text = L"Open resoult directory";
-			this->ResultDirectoryButton->UseVisualStyleBackColor = true;
-			this->ResultDirectoryButton->Click += gcnew System::EventHandler(this, &Form1::ResultDirectoryButton_Click);
+			this->ResultFileButton->Location = System::Drawing::Point(434, 114);
+			this->ResultFileButton->Name = L"ResultFileButton";
+			this->ResultFileButton->Size = System::Drawing::Size(119, 23);
+			this->ResultFileButton->TabIndex = 37;
+			this->ResultFileButton->Text = L"Open resoult file";
+			this->ResultFileButton->UseVisualStyleBackColor = true;
+			this->ResultFileButton->Click += gcnew System::EventHandler(this, &Form1::ResultFileButton_Click);
+			// 
+			// Start
+			// 
+			this->Start->Location = System::Drawing::Point(254, 224);
+			this->Start->Name = L"Start";
+			this->Start->Size = System::Drawing::Size(75, 20);
+			this->Start->TabIndex = 38;
+			this->Start->Text = L"Start";
+			this->Start->UseVisualStyleBackColor = true;
+			this->Start->Click += gcnew System::EventHandler(this, &Form1::Start_Click);
 			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(607, 357);
-			this->Controls->Add(this->ResultDirectoryButton);
+			this->Controls->Add(this->Start);
+			this->Controls->Add(this->ResultFileButton);
 			this->Controls->Add(this->SudokuDirectoryButton);
-			this->Controls->Add(this->ResoultDirecoryText);
+			this->Controls->Add(this->ResoultFileText);
 			this->Controls->Add(this->SudokuDirecoryText);
 			this->Controls->Add(this->TimeTextBox);
 			this->Controls->Add(this->SetThreadsButton);
@@ -205,27 +223,44 @@ namespace CppCLRWinformsProjekt {
 #pragma endregion
 		private: System::Void SudokuDirecoryText_TextChanged(System::Object^ sender, System::EventArgs^ e) 
 		{
-
+			SudokuDirecoryText->Text = directoryname;
 		}
 		private: System::Void SudokuDirectoryButton_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
+			FolderBrowserDialog^ folderBrowserDialog1;
+			folderBrowserDialog1 = gcnew System::Windows::Forms::FolderBrowserDialog;
+			Windows::Forms::DialogResult result = folderBrowserDialog1->ShowDialog();
 
+			directoryname = folderBrowserDialog1->SelectedPath;
+			SudokuDirecoryText_TextChanged(sender, e);
+			//buttonStart->Enabled = true;
 		}
-		private: System::Void ResoultDirecoryText_TextChanged(System::Object^ sender, System::EventArgs^ e) 
+		public: System::Void ResoultFileText_TextChanged(System::Object^ sender, System::EventArgs^ e) 
 		{
-
+			ResoultFileText->Text = strfilename;
 		}
-		private: System::Void ResultDirectoryButton_Click(System::Object^ sender, System::EventArgs^ e) 
+		private: System::Void ResultFileButton_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
-
+			Stream^ myStream;
+			OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
+			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			{
+				if ((myStream = openFileDialog1->OpenFile()) != nullptr)
+				{
+					strfilename = openFileDialog1->InitialDirectory + openFileDialog1->FileName;
+					//String^ Readfile = File::ReadAllText(strfilename);
+					ResoultFileText_TextChanged(sender, e);
+					myStream->Close();
+				}
+			}
 		}
 		private: System::Void AssemblerChcekButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
 		{
-
+			CppOrAsm = false;
 		}
 		private: System::Void CppCheckButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
 		{
-
+			CppOrAsm = true;
 		}
 		private: System::Void TimeTextBox_TextChanged(System::Object^ sender, System::EventArgs^ e) 
 		{
@@ -239,5 +274,9 @@ namespace CppCLRWinformsProjekt {
 		{
 
 		}
-	};
+		private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) 
+		{
+
+		}
+};
 }
