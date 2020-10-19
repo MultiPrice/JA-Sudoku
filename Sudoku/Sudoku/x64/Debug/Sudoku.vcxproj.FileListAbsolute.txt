@@ -1,0 +1,3 @@
+C:\Users\igobu\source\repos\JA-Sudoku\Sudoku\Sudoku\x64\Debug\Sudoku.vcxprojAssemblyReference.cache
+C:\Users\igobu\source\repos\JA-Sudoku\Sudoku\Sudoku\x64\Debug\Sudoku.Form1.resources
+C:\Users\igobu\source\repos\JA-Sudoku\Sudoku\Sudoku\x64\Debug\Sudoku.vcxproj.GenerateResource.cache

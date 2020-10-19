@@ -1,14 +1,31 @@
 #pragma once
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+//#include <Windows.h>
+#include <string>
+//#include <msclr\marshal_cppstd.h>
+#include <chrono>
+#include <thread>
+#include <filesystem>
+#include <experimental/filesystem>
+
+#include "Algorytm.h"
+#include "pch.h"
 
 namespace CppCLRWinformsProjekt {
 
 	using namespace System;
+	using namespace System::Configuration;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace System::IO;
+	using namespace System::Threading;
+	using namespace std::chrono;
+	using namespace Runtime::InteropServices;
+	//using namespace msclr::interop;
+	namespace fs = std::experimental::filesystem::v1;
 
 	/// <summary>
 	/// Zusammenfassung für Form1
@@ -16,12 +33,11 @@ namespace CppCLRWinformsProjekt {
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
 	public:
+		Sudoku_s^ sud;
 		Form1(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Konstruktorcode hier hinzufügen.
-			//
+			sud = gcnew Sudoku_s();
 		}
 
 	protected:
@@ -51,9 +67,10 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::Button^ SudokuDirectoryButton;
 	private: System::Windows::Forms::Button^ ResultFileButton;
 
-	String^ strfilename;
+	System::String^ strfilename;
 	bool CppOrAsm;
-	String^ directoryname;
+	System::String^ directoryname;
+	
 	private: System::Windows::Forms::Button^ Start;
 
 	protected:
@@ -248,7 +265,7 @@ namespace CppCLRWinformsProjekt {
 				if ((myStream = openFileDialog1->OpenFile()) != nullptr)
 				{
 					strfilename = openFileDialog1->InitialDirectory + openFileDialog1->FileName;
-					//String^ Readfile = File::ReadAllText(strfilename);
+					//System::String^ Readfile = File::ReadAllText(strfilename);
 					ResoultFileText_TextChanged(sender, e);
 					myStream->Close();
 				}
@@ -276,7 +293,165 @@ namespace CppCLRWinformsProjekt {
 		}
 		private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
+			// initialize
+			int fileCount = 0;
+			int threadCounter = 0;
+			int threadMax = Decimal::ToInt32(ThreadsNumber->Value);
+			Generic::List<Thread^>^ threadList = gcnew Generic::List<Thread^>();
 
+
+			System::String^ tmp = directoryname;
+			/*const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(tmp)).ToPointer();
+			string tmp_d = chars;
+			Marshal::FreeHGlobal(IntPtr((void*)chars));*/
+			// zmiana w marshalu
+			for (const auto& entry : fs::directory_iterator((const char*)(Marshal::StringToHGlobalAnsi(tmp)).ToPointer()))
+			{
+				if (entry.path().extension().string() == ".txt")
+					fileCount++;
+			}
+			// leave if none found
+			if (fileCount == 0)
+			{
+				MessageBox::Show("Brak plików w danej lokalizacji!");
+				return;
+			}
+			else if (fileCount < threadMax)
+				threadMax = fileCount;
+
+
+
+			//rozpoczêcie zegara do zliczania czasu wykonania
+			auto start = high_resolution_clock::now();
+
+			// Wyszukanie plików txt
+			// Zmiana w marshalu
+			/*for (const auto& entry : fs::directory_iterator(marshal_as<std::string>(tmp)))*/
+			for (const auto& entry : fs::directory_iterator((const char*)(Marshal::StringToHGlobalAnsi(tmp)).ToPointer()))
+			{
+				if (entry.path().extension().string() == ".txt")
+				{
+					std::string txtPath = entry.path().string();
+					//std::string txtPath = txtPath;
+					// zmiana rozszerzenia
+					//txtPath.erase(txtPath.length() - 4);
+					//txtPath.append(".txt");
+
+					// Sprawdenie przycisku
+					/*if (radioButtonDecode->Checked)
+					{*/
+						// Obs³uga w¹tków
+						if (threadCounter < threadMax)
+						{
+							threadList->Add(gcnew Thread(gcnew ParameterizedThreadStart(sud, &Sudoku_s::laodSudoku)));
+							//threadList->Add(gcnew Thread(gcnew ParameterizedThreadStart(dllMan, &DllManager::operateDecode)));
+
+							/*const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(tmp)).ToPointer();
+							string tmp_d = chars;
+							Marshal::FreeHGlobal(IntPtr((void*)chars));*/
+
+							/*String^ Algorithm::convert_to_system_string(int* tab, int tab_length)
+							{
+								string tmp = "";
+								for (int i = 0; i < tab_length; i++)
+								{
+									tmp += to_string(tab[i]);
+								}
+								String^ full = gcnew String(tmp.c_str());
+								return full;
+							}*/
+
+
+							Tuple<System::String^, System::String^>^ parameter = gcnew Tuple<System::String^, System::String^>(
+								//marshal_as<System::String^>(txtPath));
+								gcnew String(txtPath.c_str()),
+								strfilename);
+								//radioButtonCpp->Checked);
+
+							threadList[threadCounter]->Start(parameter);
+							threadCounter++;
+						}
+						else
+						{
+							bool found = false;
+							while (!found)
+							{
+								for (int i = 0; i < threadMax; i++)
+								{
+									if (!threadList[i]->IsAlive)
+									{
+										found = true;
+										threadList[i] = gcnew Thread(gcnew ParameterizedThreadStart(sud, &Sudoku_s::laodSudoku));
+										Tuple<System::String^, System::String^>^ parameter = gcnew Tuple<System::String^, System::String^>(
+											//marshal_as<System::String^>(txtPath));
+											gcnew String(txtPath.c_str()),
+											strfilename);
+											//radioButtonCpp->Checked);
+
+										threadList[i]->Start(parameter);
+									}
+									if (found) break;
+								}
+							}
+						}
+
+					//}
+					//else
+					//{
+					//	// znalezienie pliku txt o tej samej nazwie
+					//	if (fs::exists(txtPath))
+					//	{
+					//		// Obs³uga w¹tków
+					//		if (threadCounter < threadMax)
+					//		{
+					//			threadList->Add(gcnew Thread(gcnew ParameterizedThreadStart(dllMan, &DllManager::operateEncode)));
+
+					//			Tuple<System::String^, System::String^, bool>^ parameter = gcnew Tuple<System::String^, System::String^, bool>(
+					//				marshal_as<System::String^>(txtPath),
+					//				marshal_as<System::String^>(txtPath),
+					//				radioButtonCpp->Checked);
+
+					//			threadList[threadCounter]->Start(parameter);
+					//			threadCounter++;
+					//		}
+					//		else
+					//		{
+					//			bool found = false;
+					//			while (!found)
+					//			{
+					//				for (int i = 0; i < threadMax; i++)
+					//				{
+					//					if (!threadList[i]->IsAlive)
+					//					{
+					//						found = true;
+					//						threadList[i] = gcnew Thread(gcnew ParameterizedThreadStart(dllMan, &DllManager::operateEncode));
+					//						Tuple<System::String^, System::String^, bool>^ parameter = gcnew Tuple<System::String^, System::String^, bool>(
+					//							marshal_as<System::String^>(txtPath),
+					//							marshal_as<System::String^>(txtPath),
+					//							radioButtonCpp->Checked);
+
+					//						threadList[i]->Start(parameter);
+					//					}
+					//					if (found) break;
+					//				}
+					//			}
+					//		}
+
+					//	}
+					//}
+				}
+			}
+
+			for (int i = 0; i < threadList->Count; i++)
+			{
+				threadList[i]->Join();
+			}
+
+			auto stop = high_resolution_clock::now();
+			auto duration = duration_cast<microseconds>(stop - start);
+			System::String^ timePassed = gcnew String(to_string(duration.count()).c_str());
+			//textBoxTime->Text = timePassed;
+			MessageBox::Show("Wykonano." + threadMax.ToString());
 		}
 };
 }
