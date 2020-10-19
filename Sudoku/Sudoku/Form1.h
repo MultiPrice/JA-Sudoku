@@ -308,7 +308,8 @@ namespace CppCLRWinformsProjekt {
 			for (const auto& entry : fs::directory_iterator((const char*)(Marshal::StringToHGlobalAnsi(tmp)).ToPointer()))
 			{
 				if (entry.path().extension().string() == ".txt")
-					fileCount++;
+					if (entry.path().string() != (const char*)(Marshal::StringToHGlobalAnsi(strfilename)).ToPointer())
+						fileCount++;
 			}
 			// leave if none found
 			if (fileCount == 0)
@@ -319,7 +320,11 @@ namespace CppCLRWinformsProjekt {
 			else if (fileCount < threadMax)
 				threadMax = fileCount;
 
-
+			remove((const char*)(Marshal::StringToHGlobalAnsi(strfilename)).ToPointer());
+			fstream file;
+			file.open((const char*)(Marshal::StringToHGlobalAnsi(strfilename)).ToPointer());
+			file << "";
+			file.close();
 
 			//rozpoczêcie zegara do zliczania czasu wykonania
 			auto start = high_resolution_clock::now();
@@ -361,13 +366,12 @@ namespace CppCLRWinformsProjekt {
 								return full;
 							}*/
 
-
 							Tuple<System::String^, System::String^>^ parameter = gcnew Tuple<System::String^, System::String^>(
 								//marshal_as<System::String^>(txtPath));
 								gcnew String(txtPath.c_str()),
 								strfilename);
 								//radioButtonCpp->Checked);
-
+							//MessageBox::Show(gcnew String(txtPath.c_str()));
 							threadList[threadCounter]->Start(parameter);
 							threadCounter++;
 						}
@@ -387,7 +391,7 @@ namespace CppCLRWinformsProjekt {
 											gcnew String(txtPath.c_str()),
 											strfilename);
 											//radioButtonCpp->Checked);
-
+										//MessageBox::Show(gcnew String(txtPath.c_str()));
 										threadList[i]->Start(parameter);
 									}
 									if (found) break;

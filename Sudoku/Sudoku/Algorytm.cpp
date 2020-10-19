@@ -107,40 +107,43 @@ bool Sudoku_s::checkSudoku(int tab[9][9])
 	for (int g = 0; g < 9; g++)
 		nine.push_back(0);
 	for (int i = 0; i < 9; i++)
+	{
 		for (int j = 0; j < 9; j++)
 		{
-			nine[tab[j][i]]++;
-			for (int g = 0; g < 9; g++)
-			{
-				if (nine[g] != 1)
-					return false;
-				nine[g] = 0;
-			}
+			nine[tab[j][i] - 1]++;
 		}
+		for (int g = 0; g < 9; g++)
+		{
+			if (nine[g] != 1)
+				return false;
+			nine[g] = 0;
+		}
+	}
+	
 	for (int i = 0; i < 9; i++)
+	{
 		for (int j = 0; j < 9; j++)
+			nine[tab[i][j] - 1]++;
+		for (int g = 0; g < 9; g++)
 		{
-			nine[tab[i][j]]++;
-			for (int g = 0; g < 9; g++)
-			{
-				if (nine[g] != 1)
-					return false;
-				nine[g] = 0;
-			}
+			if (nine[g] != 1)
+				return false;
+			nine[g] = 0;
 		}
+	}
 	for (int k = 0; k < 9; k += 3)
 		for (int i = k; i < k + 3; i++)
+		{
 			for (int l = 0; l < 9; l += 3)
 				for (int j = l; j < l + 3; j++)
+					nine[tab[j][i] - 1]++;
+				for (int g = 0; g < 9; g++)
 				{
-					nine[tab[j][i]]++;
-					for (int g = 0; g < 9; g++)
-					{
-						if (nine[g] != 1)
-							return false;
-						nine[g] = 0;
-					}
+					if (nine[g] != 1)
+						return false;
+					nine[g] = 0;
 				}
+		}
 	return true;
 }
 
@@ -148,7 +151,6 @@ void Sudoku_s::laodSudoku(Object^ parametry)
 {
 	Tuple<String^, String^>^ params = (Tuple<String^, String^>^) parametry; // krotka z parametrami
 	// przepisanie parametrów z krotki
-
 	//string bmpPath = msclr::interop::marshal_as<string>(params->Item1);
 	const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(params->Item1)).ToPointer();
 	const char* chars2 = (const char*)(Marshal::StringToHGlobalAnsi(params->Item2)).ToPointer();
@@ -161,30 +163,33 @@ void Sudoku_s::laodSudoku(Object^ parametry)
 	int tab[9][9];
 	if (file.good())
 	{
-		std::string tmp = "";
+		char tmp;
 		int nr = 0;
 		for (int i = 0; i < 9; i++)
 			for (int j = 0; j < 9; j++)
 			{
 				file >> tmp;
-				if (tmp.length() != 1)
+				if (!isdigit(tmp))
+				{
+					save_to_file(savePath, txtPath, false);
 					return;
-				else if (!isdigit(tmp[0]))
-					return;
+				}
 				else
 				{
-					nr = (int)(tmp[0]);
+					nr = (int)(tmp);
+					nr -= 48;
 					if (nr < 1 && nr > 9)
+					{
+						save_to_file(savePath, txtPath, false);
 						return;
+					}
 				}
 				tab[j][i] = nr;
 			}
-		if (!file.eof())
-			return;
 		file.close();
 	}
 	if (checkSudoku(tab))
-		save_to_file(txtPath, savePath, true);
+		save_to_file(savePath, txtPath, true);
 	else
-		save_to_file(txtPath, savePath, false);
+		save_to_file(savePath, txtPath, false);
 }
