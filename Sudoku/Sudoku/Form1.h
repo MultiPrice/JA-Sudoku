@@ -454,7 +454,7 @@ namespace CppCLRWinformsProjekt {
 			auto stop = high_resolution_clock::now();
 			auto duration = duration_cast<microseconds>(stop - start);
 			System::String^ timePassed = gcnew String(to_string(duration.count()).c_str());
-			//textBoxTime->Text = timePassed;
+			TimeTextBox->Text = timePassed;
 			MessageBox::Show("Wykonano." + threadMax.ToString());
 		}
 };
