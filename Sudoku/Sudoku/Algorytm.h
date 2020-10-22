@@ -20,8 +20,7 @@
 #include <vector>
 //#include <msclr\marshal_cppstd.h>
 
-//extern "C" void asmSteganographyEncode(unsigned char* bmpData, char* txtData, int txtLength);
-//extern "C" void asmSteganographyDecode(unsigned char* bmpData, char* result);
+extern "C" bool asmCheckSudoku(int* tab);
 
 using namespace std;
 using namespace System;

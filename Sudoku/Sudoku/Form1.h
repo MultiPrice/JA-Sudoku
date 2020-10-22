@@ -301,10 +301,7 @@ namespace CppCLRWinformsProjekt {
 
 
 			System::String^ tmp = directoryname;
-			/*const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(tmp)).ToPointer();
-			string tmp_d = chars;
-			Marshal::FreeHGlobal(IntPtr((void*)chars));*/
-			// zmiana w marshalu
+
 			for (const auto& entry : fs::directory_iterator((const char*)(Marshal::StringToHGlobalAnsi(tmp)).ToPointer()))
 			{
 				if (entry.path().extension().string() == ".txt")
@@ -330,48 +327,22 @@ namespace CppCLRWinformsProjekt {
 			auto start = high_resolution_clock::now();
 
 			// Wyszukanie plików txt
-			// Zmiana w marshalu
-			/*for (const auto& entry : fs::directory_iterator(marshal_as<std::string>(tmp)))*/
 			for (const auto& entry : fs::directory_iterator((const char*)(Marshal::StringToHGlobalAnsi(tmp)).ToPointer()))
 			{
 				if (entry.path().extension().string() == ".txt")
 				{
 					std::string txtPath = entry.path().string();
-					//std::string txtPath = txtPath;
-					// zmiana rozszerzenia
-					//txtPath.erase(txtPath.length() - 4);
-					//txtPath.append(".txt");
-
-					// Sprawdenie przycisku
-					/*if (radioButtonDecode->Checked)
-					{*/
+					
 						// Obs³uga w¹tków
 						if (threadCounter < threadMax)
 						{
 							threadList->Add(gcnew Thread(gcnew ParameterizedThreadStart(sud, &Sudoku_s::laodSudoku)));
-							//threadList->Add(gcnew Thread(gcnew ParameterizedThreadStart(dllMan, &DllManager::operateDecode)));
-
-							/*const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(tmp)).ToPointer();
-							string tmp_d = chars;
-							Marshal::FreeHGlobal(IntPtr((void*)chars));*/
-
-							/*String^ Algorithm::convert_to_system_string(int* tab, int tab_length)
-							{
-								string tmp = "";
-								for (int i = 0; i < tab_length; i++)
-								{
-									tmp += to_string(tab[i]);
-								}
-								String^ full = gcnew String(tmp.c_str());
-								return full;
-							}*/
-
-							Tuple<System::String^, System::String^>^ parameter = gcnew Tuple<System::String^, System::String^>(
-								//marshal_as<System::String^>(txtPath));
+							
+							Tuple<System::String^, System::String^, bool>^ parameter = gcnew Tuple<System::String^, System::String^, bool>(
 								gcnew String(txtPath.c_str()),
-								strfilename);
-								//radioButtonCpp->Checked);
-							//MessageBox::Show(gcnew String(txtPath.c_str()));
+								strfilename,
+								CppOrAsm);
+
 							threadList[threadCounter]->Start(parameter);
 							threadCounter++;
 						}
@@ -386,63 +357,16 @@ namespace CppCLRWinformsProjekt {
 									{
 										found = true;
 										threadList[i] = gcnew Thread(gcnew ParameterizedThreadStart(sud, &Sudoku_s::laodSudoku));
-										Tuple<System::String^, System::String^>^ parameter = gcnew Tuple<System::String^, System::String^>(
-											//marshal_as<System::String^>(txtPath));
+										Tuple<System::String^, System::String^, bool>^ parameter = gcnew Tuple<System::String^, System::String^, bool>(
 											gcnew String(txtPath.c_str()),
-											strfilename);
-											//radioButtonCpp->Checked);
-										//MessageBox::Show(gcnew String(txtPath.c_str()));
+											strfilename,
+											CppOrAsm);
 										threadList[i]->Start(parameter);
 									}
 									if (found) break;
 								}
 							}
 						}
-
-					//}
-					//else
-					//{
-					//	// znalezienie pliku txt o tej samej nazwie
-					//	if (fs::exists(txtPath))
-					//	{
-					//		// Obs³uga w¹tków
-					//		if (threadCounter < threadMax)
-					//		{
-					//			threadList->Add(gcnew Thread(gcnew ParameterizedThreadStart(dllMan, &DllManager::operateEncode)));
-
-					//			Tuple<System::String^, System::String^, bool>^ parameter = gcnew Tuple<System::String^, System::String^, bool>(
-					//				marshal_as<System::String^>(txtPath),
-					//				marshal_as<System::String^>(txtPath),
-					//				radioButtonCpp->Checked);
-
-					//			threadList[threadCounter]->Start(parameter);
-					//			threadCounter++;
-					//		}
-					//		else
-					//		{
-					//			bool found = false;
-					//			while (!found)
-					//			{
-					//				for (int i = 0; i < threadMax; i++)
-					//				{
-					//					if (!threadList[i]->IsAlive)
-					//					{
-					//						found = true;
-					//						threadList[i] = gcnew Thread(gcnew ParameterizedThreadStart(dllMan, &DllManager::operateEncode));
-					//						Tuple<System::String^, System::String^, bool>^ parameter = gcnew Tuple<System::String^, System::String^, bool>(
-					//							marshal_as<System::String^>(txtPath),
-					//							marshal_as<System::String^>(txtPath),
-					//							radioButtonCpp->Checked);
-
-					//						threadList[i]->Start(parameter);
-					//					}
-					//					if (found) break;
-					//				}
-					//			}
-					//		}
-
-					//	}
-					//}
 				}
 			}
 
