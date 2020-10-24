@@ -111,10 +111,15 @@ void Sudoku_s::laodSudoku(Object^ parametry)
 	}
 	else
 	{
-		int tablicowanie[81];
+		int* tablicowanie = new int [81];
+		int index = 0;
 		for (int i = 0; i < 9; i++)
 			for (int j = 0; j < 9; j++)
-				tablicowanie[i + j] = tab[j][i];
+			{
+				tablicowanie[index] = tab[j][i];
+				//MessageBox::Show(tablicowanie[i + j].ToString());
+				index++;
+			}
 		if (asmCheckSudoku(tablicowanie))
 		{
 			MessageBox::Show("asm true");

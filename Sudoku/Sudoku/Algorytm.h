@@ -20,7 +20,7 @@
 #include <vector>
 //#include <msclr\marshal_cppstd.h>
 
-extern "C" bool asmCheckSudoku(int* tab);
+extern "C" bool asmCheckSudoku(int *tab);
 
 using namespace std;
 using namespace System;
