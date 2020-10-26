@@ -109,10 +109,10 @@ namespace CppCLRWinformsProjekt {
 			// AssemblerChcekButton
 			// 
 			this->AssemblerChcekButton->AutoSize = true;
-			this->AssemblerChcekButton->Location = System::Drawing::Point(254, 129);
-			this->AssemblerChcekButton->Margin = System::Windows::Forms::Padding(2);
+			this->AssemblerChcekButton->Location = System::Drawing::Point(339, 159);
+			this->AssemblerChcekButton->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->AssemblerChcekButton->Name = L"AssemblerChcekButton";
-			this->AssemblerChcekButton->Size = System::Drawing::Size(73, 17);
+			this->AssemblerChcekButton->Size = System::Drawing::Size(95, 21);
 			this->AssemblerChcekButton->TabIndex = 0;
 			this->AssemblerChcekButton->TabStop = true;
 			this->AssemblerChcekButton->Text = L"Assembler";
@@ -122,10 +122,10 @@ namespace CppCLRWinformsProjekt {
 			// CppCheckButton
 			// 
 			this->CppCheckButton->AutoSize = true;
-			this->CppCheckButton->Location = System::Drawing::Point(254, 150);
-			this->CppCheckButton->Margin = System::Windows::Forms::Padding(2);
+			this->CppCheckButton->Location = System::Drawing::Point(339, 185);
+			this->CppCheckButton->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->CppCheckButton->Name = L"CppCheckButton";
-			this->CppCheckButton->Size = System::Drawing::Size(44, 17);
+			this->CppCheckButton->Size = System::Drawing::Size(54, 21);
 			this->CppCheckButton->TabIndex = 1;
 			this->CppCheckButton->TabStop = true;
 			this->CppCheckButton->Text = L"C++";
@@ -134,9 +134,10 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// SetThreadsButton
 			// 
-			this->SetThreadsButton->Location = System::Drawing::Point(292, 12);
+			this->SetThreadsButton->Location = System::Drawing::Point(389, 15);
+			this->SetThreadsButton->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->SetThreadsButton->Name = L"SetThreadsButton";
-			this->SetThreadsButton->Size = System::Drawing::Size(75, 20);
+			this->SetThreadsButton->Size = System::Drawing::Size(100, 25);
 			this->SetThreadsButton->TabIndex = 32;
 			this->SetThreadsButton->Text = L"Set threads";
 			this->SetThreadsButton->UseVisualStyleBackColor = true;
@@ -144,50 +145,57 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// ThreadsNumber
 			// 
-			this->ThreadsNumber->Location = System::Drawing::Point(229, 12);
+			this->ThreadsNumber->Location = System::Drawing::Point(305, 15);
+			this->ThreadsNumber->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->ThreadsNumber->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10000, 0, 0, 0 });
 			this->ThreadsNumber->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->ThreadsNumber->Name = L"ThreadsNumber";
-			this->ThreadsNumber->Size = System::Drawing::Size(57, 20);
+			this->ThreadsNumber->Size = System::Drawing::Size(76, 22);
 			this->ThreadsNumber->TabIndex = 31;
 			this->ThreadsNumber->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->ThreadsNumber->ValueChanged += gcnew System::EventHandler(this, &Form1::ThreadsNumber_ValueChanged);
 			// 
 			// TimeTextBox
 			// 
-			this->TimeTextBox->Location = System::Drawing::Point(208, 172);
+			this->TimeTextBox->Location = System::Drawing::Point(277, 212);
+			this->TimeTextBox->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->TimeTextBox->Multiline = true;
 			this->TimeTextBox->Name = L"TimeTextBox";
 			this->TimeTextBox->ScrollBars = System::Windows::Forms::ScrollBars::Both;
-			this->TimeTextBox->Size = System::Drawing::Size(179, 46);
+			this->TimeTextBox->Size = System::Drawing::Size(237, 56);
 			this->TimeTextBox->TabIndex = 33;
 			this->TimeTextBox->TextChanged += gcnew System::EventHandler(this, &Form1::TimeTextBox_TextChanged);
 			// 
 			// SudokuDirecoryText
 			// 
-			this->SudokuDirecoryText->Location = System::Drawing::Point(12, 38);
+			this->SudokuDirecoryText->Location = System::Drawing::Point(16, 47);
+			this->SudokuDirecoryText->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->SudokuDirecoryText->Multiline = true;
 			this->SudokuDirecoryText->Name = L"SudokuDirecoryText";
+			this->SudokuDirecoryText->ReadOnly = true;
 			this->SudokuDirecoryText->ScrollBars = System::Windows::Forms::ScrollBars::Both;
-			this->SudokuDirecoryText->Size = System::Drawing::Size(195, 70);
+			this->SudokuDirecoryText->Size = System::Drawing::Size(259, 85);
 			this->SudokuDirecoryText->TabIndex = 34;
 			this->SudokuDirecoryText->TextChanged += gcnew System::EventHandler(this, &Form1::SudokuDirecoryText_TextChanged);
 			// 
 			// ResoultFileText
 			// 
-			this->ResoultFileText->Location = System::Drawing::Point(387, 38);
+			this->ResoultFileText->Location = System::Drawing::Point(516, 47);
+			this->ResoultFileText->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->ResoultFileText->Multiline = true;
 			this->ResoultFileText->Name = L"ResoultFileText";
+			this->ResoultFileText->ReadOnly = true;
 			this->ResoultFileText->ScrollBars = System::Windows::Forms::ScrollBars::Both;
-			this->ResoultFileText->Size = System::Drawing::Size(206, 70);
+			this->ResoultFileText->Size = System::Drawing::Size(273, 85);
 			this->ResoultFileText->TabIndex = 35;
 			this->ResoultFileText->TextChanged += gcnew System::EventHandler(this, &Form1::ResoultFileText_TextChanged);
 			// 
 			// SudokuDirectoryButton
 			// 
-			this->SudokuDirectoryButton->Location = System::Drawing::Point(38, 114);
+			this->SudokuDirectoryButton->Location = System::Drawing::Point(51, 140);
+			this->SudokuDirectoryButton->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->SudokuDirectoryButton->Name = L"SudokuDirectoryButton";
-			this->SudokuDirectoryButton->Size = System::Drawing::Size(126, 23);
+			this->SudokuDirectoryButton->Size = System::Drawing::Size(168, 28);
 			this->SudokuDirectoryButton->TabIndex = 36;
 			this->SudokuDirectoryButton->Text = L"Open sudoku directory";
 			this->SudokuDirectoryButton->UseVisualStyleBackColor = true;
@@ -195,9 +203,10 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// ResultFileButton
 			// 
-			this->ResultFileButton->Location = System::Drawing::Point(434, 114);
+			this->ResultFileButton->Location = System::Drawing::Point(579, 140);
+			this->ResultFileButton->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->ResultFileButton->Name = L"ResultFileButton";
-			this->ResultFileButton->Size = System::Drawing::Size(119, 23);
+			this->ResultFileButton->Size = System::Drawing::Size(159, 28);
 			this->ResultFileButton->TabIndex = 37;
 			this->ResultFileButton->Text = L"Open resoult file";
 			this->ResultFileButton->UseVisualStyleBackColor = true;
@@ -205,9 +214,10 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// Start
 			// 
-			this->Start->Location = System::Drawing::Point(254, 224);
+			this->Start->Location = System::Drawing::Point(339, 276);
+			this->Start->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->Start->Name = L"Start";
-			this->Start->Size = System::Drawing::Size(75, 20);
+			this->Start->Size = System::Drawing::Size(100, 25);
 			this->Start->TabIndex = 38;
 			this->Start->Text = L"Start";
 			this->Start->UseVisualStyleBackColor = true;
@@ -215,9 +225,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// Form1
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(607, 357);
+			this->ClientSize = System::Drawing::Size(809, 439);
 			this->Controls->Add(this->Start);
 			this->Controls->Add(this->ResultFileButton);
 			this->Controls->Add(this->SudokuDirectoryButton);
@@ -229,7 +239,7 @@ namespace CppCLRWinformsProjekt {
 			this->Controls->Add(this->CppCheckButton);
 			this->Controls->Add(this->AssemblerChcekButton);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
-			this->Margin = System::Windows::Forms::Padding(2);
+			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->Name = L"Form1";
 			this->Text = L"Sudoku";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ThreadsNumber))->EndInit();

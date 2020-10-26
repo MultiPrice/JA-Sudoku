@@ -163,7 +163,6 @@ SprawdzD:
 	mov rax, 0
 	ret
 
-
 Koniec:
 	pop rdx
 	pop rcx
