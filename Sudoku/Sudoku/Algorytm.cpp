@@ -122,12 +122,10 @@ void Sudoku_s::laodSudoku(Object^ parametry)
 			}
 		if (asmCheckSudoku(tablicowanie))
 		{
-			MessageBox::Show("asm true");
 			save_to_file(savePath, txtPath, true);
 		}
 		else
 		{
-			MessageBox::Show("asm false");
 			save_to_file(savePath, txtPath, false);
 		}
 	}

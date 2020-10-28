@@ -38,6 +38,7 @@ namespace CppCLRWinformsProjekt {
 		{
 			InitializeComponent();
 			sud = gcnew Sudoku_s();
+			ThreadsNumber->Value = Environment::ProcessorCount;
 		}
 
 	protected:
