@@ -1,4 +1,5 @@
-﻿  CppCLR_WinformsProjekt.cpp
+﻿  Assembling Assembler.asm...
+  CppCLR_WinformsProjekt.cpp
   The contents of <filesystem> are available only with C++17 or later.
   Algorytm.obj : napotkano moduł MSIL; konsolidowanie przyrostowe jest wyłączone dla modułów MSIL; zostanie wykonana pełna konsolidacja
 .NETFramework,Version=v4.7.2.AssemblyAttributes.obj : warning LNK4099: nie znaleziono pliku PDB "vc142.pdb" z elementem ".NETFramework,Version=v4.7.2.AssemblyAttributes.obj" lub w pozycji "C:\Users\igobu\source\repos\JA-Sudoku\Sudoku\x64\Debug\vc142.pdb"; obiekt zostanie skonsolidowany bez informacji debugowania

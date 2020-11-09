@@ -261,7 +261,6 @@ namespace CppCLRWinformsProjekt {
 
 			directoryname = folderBrowserDialog1->SelectedPath;
 			SudokuDirecoryText_TextChanged(sender, e);
-			//buttonStart->Enabled = true;
 		}
 		public: System::Void ResoultFileText_TextChanged(System::Object^ sender, System::EventArgs^ e) 
 		{
@@ -304,12 +303,10 @@ namespace CppCLRWinformsProjekt {
 		}
 		private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
-			// initialize
 			int fileCount = 0;
 			int threadCounter = 0;
 			int threadMax = Decimal::ToInt32(ThreadsNumber->Value);
 			Generic::List<Thread^>^ threadList = gcnew Generic::List<Thread^>();
-
 
 			System::String^ tmp = directoryname;
 
@@ -319,7 +316,6 @@ namespace CppCLRWinformsProjekt {
 					if (entry.path().string() != (const char*)(Marshal::StringToHGlobalAnsi(strfilename)).ToPointer())
 						fileCount++;
 			}
-			// leave if none found
 			if (fileCount == 0)
 			{
 				MessageBox::Show("Brak plików w danej lokalizacji!");

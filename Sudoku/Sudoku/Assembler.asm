@@ -15,7 +15,7 @@ WierszeD9:
 	mov dl, 9h		 ; licznik malej petli
 Wiersze9:
 	mov r9, 0000000000000001b	;tworzy przypisanie
-	mov cl, [rdi] 	; ustawia odpowiedni bit BLAAAAAAADDDDDDDD
+	mov cl, [rdi] 	; ustawia odpowiedni bit 
 	dec cl
 	shl r9, cl		; przesuwa bitowo
 	add r10, r9		; dodaje bit do wektora sprawdzajacego
